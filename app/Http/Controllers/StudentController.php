@@ -49,9 +49,12 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id):View
     {
-        //
+        
+        $student = Student::find($id);
+        return view('student.show')->with('students', $student);
+        
     }
 
     /**
@@ -60,9 +63,10 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id):View
     {
-        //
+        $student = Student::find($id);
+        return view('student.edit')->with('students', $student);
     }
 
     /**
@@ -72,9 +76,12 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id):RedirectResponse
     {
-        //
+        $student = Student::find($id);
+        $input = $request->all();
+        $student->update($input);
+        return redirect('students')->with('flash_message', 'student Updated!');  
     }
 
     /**
@@ -83,8 +90,9 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id):RedirectResponse
     {
-        //
+        Student::destroy($id);
+        return redirect('students')->with('flash_message', 'Student deleted!');  
     }
 }
